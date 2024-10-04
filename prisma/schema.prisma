@@ -1,0 +1,29 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Request {
+  requestId String @id @unique @default(cuid()) @map("request_id")
+
+  name      String
+  surname   String  @map("surname")
+  birthDate String  @map("birth_date")
+  amount    String
+  purpose   String
+  status    EStatus @default(PENDING)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+enum EStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
